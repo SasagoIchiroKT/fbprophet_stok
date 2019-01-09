@@ -2,12 +2,19 @@
 import pandas as pd # データ格納
 import matplotlib.pyplot as plt #描画
 from fbprophet import Prophet #時系列予測ライブラリ
-from fbprophet import diagnotics
+from fbprophet import diagnostics
 #Prophetのインストール
 #'pip install fbprophet' を実行 
 
 #使用するcsvデータはYahoo Finance より取得.
 # https://finance.yahoo.com/quote/2181.T/history?p=2181.T&.tsrc=fin-srch
+
+def nfl_sunday(ds):
+    date = pd.to_datetime(ds)
+    if date.weekday() == 6 and (date.month > 8 or date.month < 2):
+        return 1
+    else:
+        return 0
 
 data = pd.DataFrame()
 file_name = 'AMZN.csv'
@@ -24,6 +31,13 @@ data2['cap'] = cap
 data2['flr'] = flr
 
 model = Prophet(growth='logistic',n_changepoints=5)
+cv = diagnostics.cross_validation(model,horizon='365 days')
+cv.tail()
+
+some_mape = cal_some_mape(model)
+
+some_mape.plot(x='horizon')
+
 model.fit(data2)
 
 #描画の設定,何日分出力する、など
@@ -38,11 +52,6 @@ forecast_data = model.predict(future_data)
 
 forecast_data['cap'] = cap
 forecast_data['floor'] = flr
-
-def cal_mape(df):
-    return((df['yhat'] - df['y']).div(df['y']).abs().sum()*(1/len(df)))
- 
-cal_mape(future_data)
 
 # 描画
 fig = model.plot(forecast_data)
