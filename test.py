@@ -1,0 +1,34 @@
+# ライブラリインポート
+import pandas as pd # データ格納
+import matplotlib.pyplot as plt #描画
+from fbprophet import Prophet #時系列予測ライブラリ
+#Prophetのインストール
+#'pip install fbprophet' を実行 
+
+#使用するcsvデータはYahoo Finance より取得.
+# https://finance.yahoo.com/quote/2181.T/history?p=2181.T&.tsrc=fin-srch
+
+data = pd.DataFrame()
+file_name = '2181.T.csv'
+data2 = pd.read_csv(file_name, skiprows=1,header=None, names=['ds','Open','High','Low','Close','y','Volume'])
+print(type(data2['Close']))
+print(data2)
+data = data.append(data2)
+
+#モデル作成
+model = Prophet()
+model.fit(data)
+
+#描画の設定,何日分出力する、など
+future_data = model.make_future_dataframe(periods=250, freq = 'd')
+future_data = future_data[future_data['ds'].dt.weekday < 5]
+
+# 予測
+forecast_data = model.predict(future_data)
+
+# 描画
+fig = model.plot(forecast_data)
+model.plot_components(forecast_data)
+plt.legend()
+
+plt.show()
