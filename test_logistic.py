@@ -1,23 +1,17 @@
+
 # ライブラリインポート
+import sys
 import pandas as pd # データ格納
 import matplotlib.pyplot as plt #描画
 from fbprophet import Prophet #時系列予測ライブラリ
-from fbprophet import diagnostics
 #Prophetのインストール
 #'pip install fbprophet' を実行 
 
 #使用するcsvデータはYahoo Finance より取得.
 # https://finance.yahoo.com/quote/2181.T/history?p=2181.T&.tsrc=fin-srch
 
-def nfl_sunday(ds):
-    date = pd.to_datetime(ds)
-    if date.weekday() == 6 and (date.month > 8 or date.month < 2):
-        return 1
-    else:
-        return 0
-
 data = pd.DataFrame()
-file_name = 'AMZN.csv'
+file_name = sys.argv[1] #GUI.pyから得たカレントパスを取得する
 data2 = pd.read_csv(file_name, skiprows=1,header=None,names=['ds','Open','High','Low','Close','y','Volume'])
 print(type(data2['Close']))
 print(data2)
@@ -31,13 +25,6 @@ data2['cap'] = cap
 data2['flr'] = flr
 
 model = Prophet(growth='logistic',n_changepoints=5)
-cv = diagnostics.cross_validation(model,horizon='365 days')
-cv.tail()
-
-some_mape = cal_some_mape(model)
-
-some_mape.plot(x='horizon')
-
 model.fit(data2)
 
 #描画の設定,何日分出力する、など
