@@ -24,7 +24,7 @@ flr = 1.5   #データの最小値
 data2['cap'] = cap
 data2['flr'] = flr
 
-model = Prophet(growth='logistic',n_changepoints=5)
+model = Prophet(growth='logistic')
 model.fit(data2)
 
 #描画の設定,何日分出力する、など

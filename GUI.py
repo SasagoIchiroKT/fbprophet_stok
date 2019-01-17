@@ -15,13 +15,13 @@ def button1_clicked():
 
 # button2クリック時の処理
 def button2_clicked():
-    cmd = 'python '+'test_logistic.py '+file1.get() #非線形モデルのプログラムを起動
-    returncode = subprocess.call(cmd) #コマンド実行、該当プログラムを起動する
-    # messagebox.showinfo('FileReference Tool', u'参照ファイルは↓↓\n' + file1.get())
+    cmd = 'python '+'test_logistic.py '+file1.get()
+    returncode = subprocess.call(cmd)
+
 if __name__ == '__main__':
     # rootの作成
     root = Tk()
-    root.title('FileReference Tool')
+    root.title('Stock_price_Prophet_system')
     root.resizable(False, False)
 
     # Frame1の作成
@@ -57,3 +57,4 @@ if __name__ == '__main__':
     button3.pack(side=LEFT)
 
     root.mainloop()
+
