@@ -13,19 +13,6 @@ from sklearn import svm
 import talib as ta
 
 from fbprophet import Prophet #時系列予測ライブラリ
-
-def sma5(ds):
-
-    #df = pd.read_csv(filename,index_col='date', parse_dates=True)
-    
-    print(df)
-    closed = df.asfreq('B')['Adj Close'].dropna() # 調整後終値を抽出
-    prices = np.array(closed, dtype='f8') # 浮動小数点数による NumPy 配列にしておく
-    sma5 = ta.SMA(prices, timeperiod=5)
-
-
-
-
 #Prophetのインストール
 #'pip install fbprophet' を実行 
 
@@ -47,7 +34,6 @@ data2['cap'] = cap
 data2['flr'] = flr
 
 model = Prophet(growth='logistic')
-model.add_regressor(macd)
 model.fit(data2)
 
 #描画の設定,何日分出力する、など

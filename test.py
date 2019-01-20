@@ -14,10 +14,13 @@ import talib as ta
 
 from fbprophet import Prophet #時系列予測ライブラリ
 #Prophetのインストール
+#'pip install fbprophet' を実行 
 
+#使用するcsvデータはYahoo Finance より取得.
+# https://finance.yahoo.com/quote/2181.T/history?p=2181.T&.tsrc=fin-srch
 
 data = pd.DataFrame()
-file_name = sys.argv[1] #GUI.pyから得たカレントパスを取得する
+file_name = '2181.T.csv'
 data2 = pd.read_csv(file_name, skiprows=1,header=None, names=['ds','Open','High','Low','Close','y','Volume'])
 print(type(data2['Close']))
 print(data2)
