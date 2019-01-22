@@ -26,6 +26,7 @@ print(type(data2['Close']))
 print(data2)
 data = data.append(data2)
 
+
 #モデル作成
 cap = 3000  #データの最大値
 flr = 1.5   #データの最小値

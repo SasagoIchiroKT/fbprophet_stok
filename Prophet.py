@@ -20,8 +20,8 @@ from fbprophet import Prophet #時系列予測ライブラリ
 # https://finance.yahoo.com/quote/2181.T/history?p=2181.T&.tsrc=fin-srch
 
 data = pd.DataFrame()
-file_name = '2181.T.csv'
-data2 = pd.read_csv(file_name, skiprows=1,header=None, names=['ds','Open','High','Low','Close','y','Volume'])
+file_name = sys.argv[1] #GUI.pyから得たカレントパスを取得する
+data2 = pd.read_csv(file_name, skiprows=1,header=None, names=['ds','Open','High','Low','Close','y','Volume',''])
 print(type(data2['Close']))
 print(data2)
 data = data.append(data2)
