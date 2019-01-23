@@ -21,7 +21,7 @@ from fbprophet import Prophet #時系列予測ライブラリ
 
 data = pd.DataFrame()
 file_name = sys.argv[1] #GUI.pyから得たカレントパスを取得する
-data2 = pd.read_csv(file_name, skiprows=1,header=None,names=['ds','Open','High','Low','Close','y','Volume'])
+data2 = pd.read_csv(file_name, skiprows=1,header=None,names=['ds','Open','High','Low','Close','y','Volume'''])
 print(type(data2['Close']))
 print(data2)
 data = data.append(data2)

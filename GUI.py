@@ -1,27 +1,31 @@
 import os,sys
+
 from tkinter import *
-from tkinter import ttk
+import tkinter.ttk as ttk
+
 from tkinter import filedialog
-from tkinter import messagebox
+
 import subprocess
 
 # 参照ボタンのイベント
 # button1クリック時の処理
 def button1_clicked():
-    fTyp = [("","*")]
+    fTyp = [("","*.csv")]
     iDir = os.path.abspath(os.path.dirname(__file__))
     filepath = filedialog.askopenfilename(filetypes = fTyp,initialdir = iDir)
-    file1.set(os.path.basename(filepath))
+    path.set(filepath)
 
 # button2クリック時の処理
 def button2_clicked():
-    cmd = 'python '+'test_logistic.py '+file1.get()
-    returncode = subprocess.call(cmd)
+    cmd = "python Prophet.py "+path.get()
+    subprocess.call(cmd)
+def button3_clicked():
+    sys.exit()
 
 if __name__ == '__main__':
     # rootの作成
     root = Tk()
-    root.title('Stock_price_Prophet_system')
+    root.title('SpPs menu')
     root.resizable(False, False)
 
     # Frame1の作成
@@ -40,21 +44,19 @@ if __name__ == '__main__':
     label1.grid(row=0, column=0)
 
     # 参照ファイルパス表示ラベルの作成
-    file1 = StringVar()
-    file1_entry = ttk.Entry(frame1, textvariable=file1, width=50)
-    file1_entry.grid(row=0, column=2)
+    path = StringVar()
+    path_entry = ttk.Entry(frame1, textvariable=path, width=50)
+    path_entry.grid(row=0, column=2)
 
     # Frame2の作成
     frame2 = ttk.Frame(root, padding=(0,5))
     frame2.grid(row=1)
 
-    # Startボタンの作成
-    button2 = ttk.Button(frame2, text='Start', command=button2_clicked)
-    button2.pack(side=LEFT)
+    button2 = ttk.Button(frame2,text = "実行",command=button2_clicked)
+    button2.pack(side="left")
 
-    # Cancelボタンの作成
-    button3 = ttk.Button(frame2, text='Cancel', command=quit)
-    button3.pack(side=LEFT)
+    button3 = ttk.Button(frame2,text = "終了", command=button3_clicked)
+    button3.pack(side="left")
 
     root.mainloop()
 
