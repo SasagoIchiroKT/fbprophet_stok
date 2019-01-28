@@ -10,7 +10,9 @@ import pandas as pd # データ格納
 
 import numpy as np
 from sklearn import svm
+
 import talib as ta
+ta.get_function_groups
 
 from fbprophet import Prophet #時系列予測ライブラリ
 
@@ -31,17 +33,21 @@ print(data2)
 data = data.append(data2)
 
 #指標追加
-def nfl_sunday(ds,y):
-    date = pd.to_datetime(ds)
-    end = pd.to_datetime(y)
+def add_macd(ds,y):
+    source = pd.asfreq('B')['y'].dropna() #最終調整価格
+    data = np.array(stock, dtype='f8') #Numpy配列化
 
-data['nfl_sunday'] = data['ds'].apply(nfl_sunday)
+    macd, macdsignal, macdhist = ta.MACD(proces, fastperiod = 12, slowperiod = 26, signalperiod = 9)
+
+
+
+data['add_macd'] = data['ds'].apply(add_macd)
 
 #モデル作成
 model = Prophet()
 
 #指標の追加
-model.add_regressor('nfl_sunday')
+model.add_regressor('add_macd')
 
 model.fit(data)
 
@@ -49,7 +55,7 @@ model.fit(data)
 future_data = model.make_future_dataframe(periods=250, freq = 'd')
 future_data = future_data[future_data['ds'].dt.weekday < 5]
 
-future_data['nfl_sunday'] = future_data['ds'].apply(nfl_sunday)
+future_data['add_macd'] = future_data['ds'].apply(add_macd)
 
 # 予測
 forecast_data = model.predict(future_data)
@@ -59,6 +65,6 @@ fig = model.plot(forecast_data)
 
 model.plot_components(forecast_data)
 
-plt.legend()
+plt.legend(['Prophet'])
 
 plt.show()
